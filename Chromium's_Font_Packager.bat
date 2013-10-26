@@ -131,15 +131,15 @@ if "%copytophone%"=="y" goto yes
 if "%copytophone%"=="n" goto no
 
 :yes
-adb shell mkdir /sdcard/FontPacks >nul
-adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/
+CoreFiles\adb shell mkdir /sdcard/FontPacks >nul
+CoreFiles\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/
 echo.
 set /p rebootrecovery=Would you like your phone to be rebooted into recovery? [y or n]: 
 if "%rebootrecovery%"=="y" goto yes2
 if "%rebootrecovery%"=="n" goto no
 
 :yes2
-adb reboot recovery >nul
+CoreFiles\adb reboot recovery >nul
 
 :no
 ::Exit
