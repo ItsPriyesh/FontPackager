@@ -22,7 +22,7 @@ echo.
 ::Instructions
 echo Requirements/Instructions: 
 echo.
-echo Put the following 4 following files inside of the Input folder:
+echo Put the 4 following files inside of the Input folder:
 echo 	1. Roboto-Regular.ttf
 echo 	2. Roboto-Italic.ttf
 echo 	3. Roboto-Bold.ttf
@@ -111,13 +111,13 @@ cd..
 cd..
 cd..
 ::Back to root
-copy CoreFiles\update-binary META-INF\com\google\android >nul
+copy bin\update-binary META-INF\com\google\android >nul
 
 ::Convert EOL from Windows to Unix (this prevents status 6 error when flashing)
-CoreFiles\dos2unix META-INF\com\google\android\updater-script >nul
+bin\dos2unix META-INF\com\google\android\updater-script >nul
 
 ::Zip it all up
-CoreFiles\7za a %fontname%FontPack.zip fonts META-INF >nul
+bin\7za a %fontname%FontPack.zip fonts META-INF >nul
 
 ::Move zip to out
 move %fontname%FontPack.zip Output >nul
@@ -126,20 +126,20 @@ rmdir /s /q fonts
 rmdir /s /q META-INF
 
 echo.
-set /p copytophone=Would you like the %fontname%FontPack.zip to be copied to your phone? [y or n]: 
+set /p copytophone=Would you like the %fontname%FontPack.zip to be copied to your phone? [y or n] : 
 if "%copytophone%"=="y" goto yes
 if "%copytophone%"=="n" goto no
 
 :yes
-CoreFiles\adb shell mkdir /sdcard/FontPacks >nul
-CoreFiles\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/
+bin\adb shell mkdir /sdcard/FontPacks >nul
+bin\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/
 echo.
-set /p rebootrecovery=Would you like your phone to be rebooted into recovery? [y or n]: 
+set /p rebootrecovery=Would you like your phone to be rebooted into recovery? [y or n] : 
 if "%rebootrecovery%"=="y" goto yes2
 if "%rebootrecovery%"=="n" goto no
 
 :yes2
-CoreFiles\adb reboot recovery >nul
+bin\adb reboot recovery >nul
 
 :no
 ::Exit
