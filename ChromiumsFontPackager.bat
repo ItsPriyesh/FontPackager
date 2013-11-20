@@ -121,6 +121,7 @@ bin\7za a %fontname%FontPack.zip fonts META-INF >nul
 
 ::Move zip to out
 move %fontname%FontPack.zip Output >nul
+echo.
 echo %fontname%FontPack.zip created successfully! It can be found in the Output folder.
 
 echo.
