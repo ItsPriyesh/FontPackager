@@ -122,28 +122,52 @@ bin\7za a %fontname%FontPack.zip fonts META-INF >nul
 ::Move zip to out
 move %fontname%FontPack.zip Output >nul
 ::Delete remnants
-rmdir /s /q fonts
+::rmdir /s /q fonts
 rmdir /s /q META-INF
 
 echo.
-set /p copytophone=Would you like the %fontname%FontPack.zip to be copied to your phone? [y or n] : 
-if "%copytophone%"=="y" goto yes
-if "%copytophone%"=="n" goto no
 
-:yes
-bin\adb shell mkdir /sdcard/FontPacks >nul
-bin\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/
+echo Pick an installation method :
+echo 1 - Copy flashable zip to phone then reboot phone into recovery
+echo 2 - Push font files directly into system then reboot phone
+set /p method=...
+if "%method%"=="1" goto one
+if "%method%"=="2" goto two
+
+:one
 echo.
-set /p rebootrecovery=Would you like your phone to be rebooted into recovery? [y or n] : 
-if "%rebootrecovery%"=="y" goto yes2
-if "%rebootrecovery%"=="n" goto no
-
-:yes2
+echo About to copy %fontname%FontPack.zip to your phone.
+pause
+bin\adb shell mkdir /sdcard/FontPacks >nul
+bin\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/>nul
+echo.
+echo About to reboot phone into recovery.
+pause
 bin\adb reboot recovery >nul
 
-:no
-::Exit
+:two
 echo.
+echo About to push fonts into your phones system.
+pause
+adb remount>nul
+bin\adb push fonts\Roboto-Regular.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-Italic.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-Bold.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-BoldItalic.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-Thin.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-ThinItalic.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-Light.ttf /system/fonts/>nul
+bin\adb push fonts\Roboto-LightItalic.ttf /system/fonts/>nul
+bin\adb push fonts\RobotoCondensed-Regular.ttf /system/fonts/>nul
+bin\adb push fonts\RobotoCondensed-Italic.ttf /system/fonts/>nul
+bin\adb push fonts\RobotoCondensed-Bold.ttf /system/fonts/>nul
+bin\adb push fonts\RobotoCondensed-BoldItalic.ttf /system/fonts/>nul
+echo About to reboot phone.
+pause
+bin\adb reboot >nul
+
+echo.
+echo All tasks performed successfully.
 echo Press any key to exit . . .
 pause >nul
 
