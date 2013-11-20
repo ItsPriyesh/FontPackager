@@ -66,7 +66,7 @@ set /a x=x+1
 ::Check to see if all fonts were created successfully
 if %x% EQU 4 (
 echo.
-echo %fontname% Font pack created successfully! It can be found in the Output folder.
+echo %fontname% font derivatives created successfully.
 echo.
 )
 
@@ -121,33 +121,34 @@ bin\7za a %fontname%FontPack.zip fonts META-INF >nul
 
 ::Move zip to out
 move %fontname%FontPack.zip Output >nul
-::Delete remnants
-::rmdir /s /q fonts
-rmdir /s /q META-INF
+echo %fontname%FontPack.zip created successfully! It can be found in the Output folder.
 
 echo.
 
 echo Pick an installation method :
-echo 1 - Copy flashable zip to phone then reboot phone into recovery
-echo 2 - Push font files directly into system then reboot phone
+echo 1 - Copy flashable zip to phone then reboot phone into recovery.
+echo 2 - Push font files directly into system then reboot phone.
+echo 3 - Exit.
 set /p method=...
 if "%method%"=="1" goto one
 if "%method%"=="2" goto two
+if "%method%"=="3" goto exit
 
 :one
 echo.
-echo About to copy %fontname%FontPack.zip to your phone.
+echo %fontname%FontPack.zip will now be copied to your phone.
 pause
 bin\adb shell mkdir /sdcard/FontPacks >nul
 bin\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/>nul
 echo.
-echo About to reboot phone into recovery.
+echo Your phone will now be rebooted into recovery.
 pause
 bin\adb reboot recovery >nul
-
+goto exit
+ 
 :two
 echo.
-echo About to push fonts into your phones system.
+echo Font files will now be pushed into your phones system.
 pause
 adb remount>nul
 bin\adb push fonts\Roboto-Regular.ttf /system/fonts/>nul
@@ -162,10 +163,15 @@ bin\adb push fonts\RobotoCondensed-Regular.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-Italic.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-Bold.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-BoldItalic.ttf /system/fonts/>nul
-echo About to reboot phone.
+echo Your phone will now be rebooted in order for the changes to take affect.
 pause
 bin\adb reboot >nul
+goto exit
 
+:exit
+::Delete remnants
+rmdir /s /q fonts
+rmdir /s /q META-INF
 echo.
 echo All tasks performed successfully.
 echo Press any key to exit . . .
