@@ -70,6 +70,12 @@ echo %fontname% font derivatives created successfully.
 echo.
 )
 
+if %x% NEQ 4 (
+echo.
+echo Error - Aborting: fonts missing.
+goto exitfail
+)
+ 
 ::Create new directory and move fonts into it
 mkdir fonts
 move Input\Roboto-Regular.ttf fonts >nul
@@ -133,7 +139,7 @@ echo 3 - Exit.
 set /p method=...
 if "%method%"=="1" goto one
 if "%method%"=="2" goto two
-if "%method%"=="3" goto exit
+if "%method%"=="3" goto exitsuccess
 
 :one
 echo.
@@ -145,7 +151,7 @@ echo.
 echo Your phone will now be rebooted into recovery.
 pause
 bin\adb reboot recovery >nul
-goto exit
+goto exitsuccess
  
 :two
 echo.
@@ -167,9 +173,9 @@ bin\adb push fonts\RobotoCondensed-BoldItalic.ttf /system/fonts/>nul
 echo Your phone will now be rebooted in order for the changes to take affect.
 pause
 bin\adb reboot >nul
-goto exit
+goto exitsuccess
 
-:exit
+:exitsuccess
 ::Delete remnants
 rmdir /s /q fonts
 rmdir /s /q META-INF
@@ -178,6 +184,8 @@ echo All tasks performed successfully.
 echo Press any key to exit . . .
 pause >nul
 
-
-
-
+:exitfail
+echo Not all necessary fonts were found. 
+echo Make sure that the input folder contains the four base fonts and try again.
+echo Press any key to exit . . .
+pause >nul
