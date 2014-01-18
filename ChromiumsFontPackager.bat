@@ -143,20 +143,16 @@ if "%method%"=="3" goto exitsuccess
 
 :one
 echo.
-echo %fontname%FontPack.zip will now be copied to your phone.
-pause
+echo Copying %fontname%FontPack.zip to your phones storage.
 bin\adb shell mkdir /sdcard/FontPacks >nul
 bin\adb push Output\%fontname%FontPack.zip /sdcard/FontPacks/>nul
-echo.
-echo Your phone will now be rebooted into recovery.
-pause
+echo Rebooting phone into recovery.
 bin\adb reboot recovery >nul
 goto exitsuccess
  
 :two
 echo.
-echo Font files will now be pushed into your phones system.
-pause
+echo Pushing files to system.
 adb remount>nul
 bin\adb push fonts\Roboto-Regular.ttf /system/fonts/>nul
 bin\adb push fonts\Roboto-Italic.ttf /system/fonts/>nul
@@ -170,8 +166,7 @@ bin\adb push fonts\RobotoCondensed-Regular.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-Italic.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-Bold.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-BoldItalic.ttf /system/fonts/>nul
-echo Your phone will now be rebooted in order for the changes to take affect.
-pause
+echo Rebooting phone.
 bin\adb reboot >nul
 goto exitsuccess
 
