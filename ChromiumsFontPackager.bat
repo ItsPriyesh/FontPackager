@@ -178,9 +178,11 @@ echo.
 echo All tasks performed successfully.
 echo Press any key to exit . . .
 pause >nul
+exit
 
 :exitfail
 echo Not all necessary fonts were found. 
 echo Make sure that the input folder contains the four base fonts and try again.
 echo Press any key to exit . . .
 pause >nul
+exit
