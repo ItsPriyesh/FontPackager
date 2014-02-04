@@ -167,7 +167,7 @@ bin\adb push fonts\RobotoCondensed-Italic.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-Bold.ttf /system/fonts/>nul
 bin\adb push fonts\RobotoCondensed-BoldItalic.ttf /system/fonts/>nul
 echo Rebooting phone.
-bin\adb reboot >nul
+bin\adb shell killall system_server >nul
 goto exitsuccess
 
 :exitsuccess
